@@ -1,6 +1,5 @@
 // First group: Testing framework
 import { Given, Then, When } from "@cucumber/cucumber";
-import { World } from "cucumber";
 import { expect } from "chai";
 
 // Second group: Domain
@@ -67,7 +66,7 @@ Then(
   },
 );
 
-async function parkVehicleInFleetAtThisLocation(context: World) {
+async function parkVehicleInFleetAtThisLocation(context: Record<string, any>) {
   const parkVehicleCommand = new ParkVehicle(
     context.fleetId,
     context.vehicle.plateNumber,
@@ -77,7 +76,7 @@ async function parkVehicleInFleetAtThisLocation(context: World) {
   await handler.handle(parkVehicleCommand);
 }
 
-async function getLocation(context: World): Promise<Location> {
+async function getLocation(context: Record<string, any>): Promise<Location> {
   const getLocationQuery = new GetLocation(
     context.fleetId,
     context.vehicle.plateNumber,

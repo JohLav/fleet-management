@@ -1,6 +1,5 @@
 // First group: Testing framework
 import { Given, Then, When } from "@cucumber/cucumber";
-import { World } from "cucumber";
 import { expect } from "chai";
 
 // Second group: Domain
@@ -73,18 +72,18 @@ Then(
   },
 );
 
-async function initializeOtherUser(context: World): Promise<void> {
+async function initializeOtherUser(context: Record<string, any>): Promise<void> {
   context.otherUser = User.create(crypto.randomUUID());
 }
 
-async function initializeFleetForOtherUser(context: World): Promise<void> {
+async function initializeFleetForOtherUser(context: Record<string, any>): Promise<void> {
   const initializeFleet = new InitializeFleet(context.otherUser.id);
   const handler = new InitializeFleetHandler(context.repository);
   context.otherFleetId = await handler.handle(initializeFleet);
 }
 
 export async function registerVehicleInUserFleet(
-  context: World,
+  context: Record<string, any>,
 ): Promise<void> {
   const registerVehicleCommand = new RegisterVehicle(
     context.fleetId,
@@ -95,7 +94,7 @@ export async function registerVehicleInUserFleet(
   await handler.handle(registerVehicleCommand);
 }
 
-async function registerVehicleInOtherUserFleet(context: World): Promise<void> {
+async function registerVehicleInOtherUserFleet(context: Record<string, any>): Promise<void> {
   const registerVehicleCommand = new RegisterVehicle(
     context.otherFleetId,
     context.otherUser.id,
@@ -105,7 +104,7 @@ async function registerVehicleInOtherUserFleet(context: World): Promise<void> {
   await handler.handle(registerVehicleCommand);
 }
 
-async function getFleet(context: World): Promise<Fleet> {
+async function getFleet(context: Record<string, any>): Promise<Fleet> {
   const getFleetQuery = new GetFleet(context.fleetId);
   const handler = new GetFleetHandler(context.repository);
   return await handler.handle(getFleetQuery);

@@ -1,6 +1,5 @@
 // First group: Testing
 import { Before, Given } from "@cucumber/cucumber";
-import { World } from "cucumber";
 import { registerVehicleInUserFleet } from "./register_vehicle_steps";
 
 // Second group: Domain
@@ -37,17 +36,17 @@ Given(
   },
 );
 
-async function initializeUser(context: World): Promise<void> {
+async function initializeUser(context: Record<string, any>): Promise<void> {
   context.user = User.create(crypto.randomUUID());
 }
 
-export async function initializeFleetForUser(context: World): Promise<void> {
+export async function initializeFleetForUser(context: Record<string, any>): Promise<void> {
   const initializeFleet = new InitializeFleet(context.user.id);
   const handler = new InitializeFleetHandler(context.repository);
   context.fleetId = await handler.handle(initializeFleet);
 }
 
-async function initializeVehicle(context: World): Promise<void> {
+async function initializeVehicle(context: Record<string, any>): Promise<void> {
   context.vehicle = Vehicle.create(generateFrenchPlateNumber());
 }
 
