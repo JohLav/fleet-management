@@ -1,6 +1,7 @@
 // First group: Testing framework
 import { Given, Then, When } from "@cucumber/cucumber";
 import { expect } from "chai";
+import { StepContext } from "./context";
 
 // Second group: Domain
 import { Location } from "../../src/Domain/Models/Location";
@@ -66,7 +67,7 @@ Then(
   },
 );
 
-async function parkVehicleInFleetAtThisLocation(context: Record<string, any>) {
+async function parkVehicleInFleetAtThisLocation(context: StepContext) {
   const parkVehicleCommand = new ParkVehicle(
     context.fleetId,
     context.vehicle.plateNumber,
@@ -76,7 +77,7 @@ async function parkVehicleInFleetAtThisLocation(context: Record<string, any>) {
   await handler.handle(parkVehicleCommand);
 }
 
-async function getLocation(context: Record<string, any>): Promise<Location> {
+async function getLocation(context: StepContext): Promise<Location> {
   const getLocationQuery = new GetLocation(
     context.fleetId,
     context.vehicle.plateNumber,

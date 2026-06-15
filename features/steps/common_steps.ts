@@ -5,6 +5,7 @@ import { registerVehicleInUserFleet } from "./register_vehicle_steps";
 // Second group: Domain
 import { User } from "../../src/Domain/Models/User";
 import { Vehicle } from "../../src/Domain/Models/Vehicle";
+import { StepContext } from "./context";
 
 // Third group: App
 import {
@@ -16,7 +17,7 @@ import {
 import { InMemoryFleetRepository } from "../../src/Infra/Secondary/Repositories/InMemoryFleetRepository";
 
 Before(function (): void {
-  this.context = {};
+  this.context = {} as StepContext;
 });
 
 Given("my fleet", async function (): Promise<void> {
@@ -36,17 +37,17 @@ Given(
   },
 );
 
-async function initializeUser(context: Record<string, any>): Promise<void> {
+async function initializeUser(context: StepContext): Promise<void> {
   context.user = User.create(crypto.randomUUID());
 }
 
-export async function initializeFleetForUser(context: Record<string, any>): Promise<void> {
+export async function initializeFleetForUser(context: StepContext): Promise<void> {
   const initializeFleet = new InitializeFleet(context.user.id);
   const handler = new InitializeFleetHandler(context.repository);
   context.fleetId = await handler.handle(initializeFleet);
 }
 
-async function initializeVehicle(context: Record<string, any>): Promise<void> {
+async function initializeVehicle(context: StepContext): Promise<void> {
   context.vehicle = Vehicle.create(generateFrenchPlateNumber());
 }
 
